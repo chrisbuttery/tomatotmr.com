@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>TomatoTmr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A Pomodoro Tomato Timer crafted with elm-lang, elm-css and tachyons-elm by Chris Buttery"/>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Teko:500|Oswald:700" rel="stylesheet">
+  <script src="main.js"></script>
+  <style>
+    html, body { height: 100%; }
+    .dn { display: none;}
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const target = document.getElementById('app')
+    const app = Elm.Main.init({ node: target});
+    app.ports.emitComplete.subscribe(function(data) {
+      audio.play();
+    });
+
+    app.ports.emitPageTitle.subscribe(function(data) {
+      document.title = data
+    });
+
+    const audio = document.createElement('audio');
+    audio.setAttribute("class", "dn");
+
+    const mp3 = document.createElement('source');
+    mp3.setAttribute("src", "./audio/explosion.mp3");
+    mp3.setAttribute("type", "audio/mpeg");
+
+    audio.appendChild(mp3);
+
+    document.body.appendChild(audio);
+
+  </script>
+</body>
+</html>
