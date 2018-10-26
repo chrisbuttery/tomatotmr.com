@@ -1,4 +1,4 @@
-# tomatotmr
+# tomatotmr.com
 
 DEMO [http://tomatotmr.com](http://tomatotmr.com "A Pomodoro Tomato Timer crafted with elm-lang, elm-css and tachyons-elm")
 
