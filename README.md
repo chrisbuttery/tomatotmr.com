@@ -3,7 +3,7 @@
 DEMO [http://tomatotmr.com](http://tomatotmr.com "A Pomodoro Tomato Timer crafted with elm-lang, elm-css and tachyons-elm")
 
 ```bash
-$ cd elm-tomato-timer
+$ cd tomatotmr.com
 $ elm reactor
 
 # or
