@@ -8,6 +8,6 @@ $ elm reactor
 
 # or
 
-$ elm make src/Main.elm --output=dist/main.js
+$ elm make src/Main.elm --optimize --output=dist/main.js
 $ open dist/index.html
 ```
