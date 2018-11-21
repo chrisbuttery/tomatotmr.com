@@ -120,13 +120,9 @@ sharedRoundButtonStyle : Style
 sharedRoundButtonStyle =
     batch
         [ backgroundColor yellowLightest
-        , border (px 0)
         , borderRadius (pct 50)
         , boxShadow5 (px 0) (px 2) (px 0) (px 1) (rgba 0 0 0 0.2)
         , color (rgba 0 0 0 0.5)
-        , cursor pointer
-        , outline zero
-        , padding (px 0)
         , hover
             [ backgroundColor yellowLight ]
         , active
@@ -171,7 +167,6 @@ sharedWell : Style
 sharedWell =
     batch
         [ backgroundColor (rgba 255 255 255 0.1)
-        , borderRadius (px 3)
         , hover
             [ backgroundColor (rgba 255 255 255 0.3) ]
         , transition
@@ -191,16 +186,11 @@ blockButton =
     styled
         button
         [ backgroundColor (rgba 255 255 255 0.6)
-        , border (px 0)
-        , borderRadius (px 2)
         , boxShadow5 (px 0) (px 2) (px 0) (px 1) (rgba 0 0 0 0.2)
         , color (rgba 0 0 0 0.4)
-        , cursor pointer
         , fontFamilies teko
         , fontSize (px 30)
-        , outline zero
         , lineHeight (px 36)
-        , position relative
         , withClass
             "active"
             [ backgroundColor yellowLightest
@@ -270,7 +260,6 @@ styledLabel =
         p
         [ fontFamilies teko
         , fontSize (px 30)
-        , lineHeight (px 30)
         ]
 
 
@@ -306,8 +295,7 @@ drawerHeader : List (Attribute msg) -> List (Html msg) -> Html msg
 drawerHeader =
     styled
         h3
-        [ color white
-        , fontFamilies teko
+        [ fontFamilies teko
         , fontSize (px 36)
         ]
 
@@ -325,10 +313,7 @@ switch =
         span
         [ backgroundColor greyLight
         , borderRadius (px 20)
-        , display block
         , height (px 20)
-        , overflow hidden
-        , position relative
         , width (px 40)
         , after
             [ backgroundColor grey
@@ -357,7 +342,6 @@ range =
     styled
         input
         [ backgroundColor transparent
-        , border (px 0)
         , height (px 36)
         , property "-webkit-appearance" "none"
         , pseudoElement "-webkit-slider-runnable-track"

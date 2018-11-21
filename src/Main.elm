@@ -351,13 +351,13 @@ rangeInput : (String -> Msg) -> String -> Int -> String -> Int -> Html Msg
 rangeInput msg lbl val nme maxRange =
     div []
         [ styledLabel
-            [ class T.white ]
+            [ classes [ T.white, T.lh_solid ] ]
             [ text (lbl ++ " : ")
             , rangeValue [] [ text (String.fromInt val ++ "min") ]
             ]
         , range
             [ type_ "range"
-            , class T.w_100
+            , classes [ T.w_100, T.bn, T.outline_0 ]
             , name nme
             , min <| String.fromInt minRange
             , max <| String.fromInt maxRange
@@ -380,9 +380,9 @@ drawerView model =
         , classList [ ( "hidden", model.showSettings == False ) ]
         ]
         [ drawerHeader
-            [ classes [ T.relative, T.flex, T.items_center, T.ma0, T.pa4, T.fw3 ], isBreakMode model.mode ]
+            [ classes [ T.white, T.relative, T.flex, T.items_center, T.ma0, T.pa4, T.fw3 ], isBreakMode model.mode ]
             [ iconButton
-                [ classes [ T.absolute, T.top_1, T.pa2, T.right_1, T.top_2_ns, T.right_2_ns, T.pointer ]
+                [ classes [ T.br2, T.absolute, T.top_1, T.pa2, T.right_1, T.top_2_ns, T.right_2_ns, T.pointer ]
                 , onClick ToggleSettings
                 ]
                 [ Vector.close "16" "16" ]
@@ -393,9 +393,10 @@ drawerView model =
             , rangeInput BreakRange "Break" model.break "breakRange" maxBreakRange
             , div
                 [ class T.white ]
-                [ styledLabel [] [ text "Autoplay" ]
+                [ styledLabel [ class T.lh_solid ] [ text "Autoplay" ]
                 , switch
                     [ classList [ ( "active", model.autoPlay == True ) ]
+                    , classes [ T.db, T.overflow_hidden, T.relative ]
                     , onClick ToggleAutoPlay
                     ]
                     [ text "" ]
@@ -411,17 +412,20 @@ drawerView model =
 actionsView : TimerState -> Html Msg
 actionsView state =
     let
+        tachyons =
+          [ T.center, T.flex, T.items_center, T.justify_center, T.bn, T.pointer, T.outline_0, T.pa0, T.relative ]
+
         mainButton =
             if state == PreStart || state == Started then
                 lrgRoundButton
-                    [ classes [ T.center, T.flex, T.items_center, T.justify_center ]
+                    [ classes tachyons
                     , onClick Pause
                     ]
                     [ Vector.pause "30" "30" ]
 
             else
                 lrgRoundButton
-                    [ classes [ T.center, T.flex, T.items_center, T.justify_center ]
+                    [ classes tachyons
                     , onClick BeforeStart
                     ]
                     [ Vector.start "30" "30" ]
@@ -429,7 +433,8 @@ actionsView state =
     div [ classes [ T.relative, T.center, T.w_60_ns ] ]
         [ mainButton
         , smlRoundButton
-            [ classes [ T.absolute, T.right_1, T.right_0_ns, T.flex, T.items_center, T.justify_center ], onClick Reset ]
+            [ classes [ T.absolute, T.right_1, T.right_0_ns, T.flex, T.items_center, T.justify_center, T.bn, T.pointer, T.outline_0, T.pa0 ]
+            , onClick Reset ]
             [ Vector.reset "30" "30"
             ]
         ]
@@ -437,15 +442,20 @@ actionsView state =
 
 modeButtonsView : TimerMode -> Html Msg
 modeButtonsView mode =
+  let
+      tachyons =
+          [ T.w_40, T.w_30_ns, T.tc, T.ph0, T.pt2, T.fw3, T.relative, T.z_1, T.mr2, T.bn, T.br2, T.outline_0, T.pointer, T.relative ]
+  in
+  
     div [ classes [ T.w_100, T.mt4, T.mt5_ns ] ]
         [ blockButton
-            [ classes [ T.w_40, T.w_30_ns, T.tc, T.ph0, T.pt2, T.fw3, T.relative, T.z_1, T.mr2 ]
+            [ classes tachyons
             , classList [ ( "active", mode == Pomodoro ) ]
             , onClick (SwitchMode Pomodoro)
             ]
             [ text "Pomodoro" ]
         , blockButton
-            [ classes [ T.w_40, T.w_30_ns, T.tc, T.ph0, T.pt2, T.fw3, T.relative, T.z_1, T.ml2 ]
+            [ classes tachyons
             , classList [ ( "active", mode /= Pomodoro ) ]
             , onClick (SwitchMode Break)
             ]
@@ -484,7 +494,7 @@ timeView minutes seconds =
 settingsView : Bool -> Html Msg
 settingsView showSettings =
     iconButton
-        [ classes [ T.pa2, T.absolute, T.top_1, T.right_1, T.top_2_ns, T.right_2_ns, T.z_5, T.pointer ]
+        [ classes [ T.br2, T.pa2, T.absolute, T.top_1, T.right_1, T.top_2_ns, T.right_2_ns, T.z_5, T.pointer ]
         , classList [ ( T.dn, showSettings == True ) ]
         , onClick ToggleSettings
         ]
