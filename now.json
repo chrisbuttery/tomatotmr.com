@@ -1,0 +1,8 @@
+{
+  "name": "tomatotimer",
+  "alias": ["tomatotimer.com"],
+  "type": "static",
+  "files": [
+    "dist"
+  ]
+}
