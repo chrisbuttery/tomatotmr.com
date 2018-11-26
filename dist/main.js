@@ -770,11 +770,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.bb.aD === region.bs.aD)
+	if (region.bb.aD === region.bt.aD)
 	{
 		return 'on line ' + region.bb.aD;
 	}
-	return 'on lines ' + region.bb.aD + ' through ' + region.bs.aD;
+	return 'on lines ' + region.bb.aD + ' through ' + region.bt.aD;
 }
 
 
@@ -1841,9 +1841,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b9,
+		impl.cb,
+		impl.co,
 		impl.cm,
-		impl.ck,
 		function() { return function() {} }
 	);
 });
@@ -3946,11 +3946,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b9,
+		impl.cb,
+		impl.co,
 		impl.cm,
-		impl.ck,
 		function(sendToApp, initialModel) {
-			var view = impl.cp;
+			var view = impl.cr;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3982,12 +3982,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b9,
+		impl.cb,
+		impl.co,
 		impl.cm,
-		impl.ck,
 		function(sendToApp, initialModel) {
 			var divertHrefToApp = impl.aH && impl.aH(sendToApp)
-			var view = impl.cp;
+			var view = impl.cr;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3995,12 +3995,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.b_);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.b0);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.cl) && (_VirtualDom_doc.title = title = doc.cl);
+				(title !== doc.cn) && (_VirtualDom_doc.title = title = doc.cn);
 			});
 		}
 	);
@@ -4051,8 +4051,8 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.cd;
-	var onUrlRequest = impl.ce;
+	var onUrlChange = impl.cf;
+	var onUrlRequest = impl.cg;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
@@ -4072,9 +4072,9 @@ function _Browser_application(impl)
 					var next = elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.bJ === next.bJ
-							&& curr.bw === next.bw
-							&& curr.bG.a === next.bG.a
+							&& curr.bL === next.bL
+							&& curr.bx === next.bx
+							&& curr.bI.a === next.bI.a
 						)
 							? elm$browser$Browser$Internal(next)
 							: elm$browser$Browser$External(href)
@@ -4082,13 +4082,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		b9: function(flags)
+		cb: function(flags)
 		{
-			return A3(impl.b9, flags, _Browser_getUrl(), key);
+			return A3(impl.cb, flags, _Browser_getUrl(), key);
 		},
-		cp: impl.cp,
-		cm: impl.cm,
-		ck: impl.ck
+		cr: impl.cr,
+		co: impl.co,
+		cm: impl.cm
 	});
 }
 
@@ -4154,17 +4154,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { b6: 'hidden', az: 'visibilitychange' }
+		? { b8: 'hidden', az: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { b6: 'mozHidden', az: 'mozvisibilitychange' }
+		? { b8: 'mozHidden', az: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { b6: 'msHidden', az: 'msvisibilitychange' }
+		? { b8: 'msHidden', az: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { b6: 'webkitHidden', az: 'webkitvisibilitychange' }
-		: { b6: 'hidden', az: 'visibilitychange' };
+		? { b8: 'webkitHidden', az: 'webkitvisibilitychange' }
+		: { b8: 'hidden', az: 'visibilitychange' };
 }
 
 
@@ -4245,8 +4245,8 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		bO: _Browser_getScene(),
-		bV: {
+		bQ: _Browser_getScene(),
+		bX: {
 			a0: _Browser_window.pageXOffset,
 			a1: _Browser_window.pageYOffset,
 			at: _Browser_doc.documentElement.clientWidth,
@@ -4284,11 +4284,11 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			bO: {
+			bQ: {
 				at: node.scrollWidth,
 				ae: node.scrollHeight
 			},
-			bV: {
+			bX: {
 				a0: node.scrollLeft,
 				a1: node.scrollTop,
 				at: node.clientWidth,
@@ -4322,14 +4322,14 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			bO: _Browser_getScene(),
-			bV: {
+			bQ: _Browser_getScene(),
+			bX: {
 				a0: x,
 				a1: y,
 				at: _Browser_doc.documentElement.clientWidth,
 				ae: _Browser_doc.documentElement.clientHeight
 			},
-			b3: {
+			b5: {
 				a0: x + rect.left,
 				a1: y + rect.top,
 				at: rect.width,
@@ -4869,7 +4869,7 @@ var elm$core$Dict$empty = elm$core$Dict$RBEmpty_elm_builtin;
 var elm$core$Task$succeed = _Scheduler_succeed;
 var elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {bI: processes, bR: taggers};
+		return {bK: processes, bT: taggers};
 	});
 var elm$time$Time$init = elm$core$Task$succeed(
 	A2(elm$time$Time$State, elm$core$Dict$empty, elm$core$Dict$empty));
@@ -5160,7 +5160,7 @@ var elm$time$Time$spawnHelp = F3(
 	});
 var elm$time$Time$onEffects = F3(
 	function (router, subs, _n0) {
-		var processes = _n0.bI;
+		var processes = _n0.bK;
 		var rightStep = F3(
 			function (_n6, id, _n7) {
 				var spawns = _n7.a;
@@ -5324,7 +5324,7 @@ var elm$time$Time$millisToPosix = elm$core$Basics$identity;
 var elm$time$Time$now = _Time_now(elm$time$Time$millisToPosix);
 var elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _n0 = A2(elm$core$Dict$get, interval, state.bR);
+		var _n0 = A2(elm$core$Dict$get, interval, state.bT);
 		if (_n0.$ === 1) {
 			return elm$core$Task$succeed(state);
 		} else {
@@ -6249,7 +6249,7 @@ var rtfeldman$elm_css$Css$Transitions$BackgroundColor = 1;
 var rtfeldman$elm_css$Css$Transitions$Transition = elm$core$Basics$identity;
 var rtfeldman$elm_css$Css$Transitions$durationTransition = F2(
 	function (animation, duration) {
-		return {aO: animation, aQ: elm$core$Maybe$Nothing, aR: duration, a$: elm$core$Maybe$Nothing};
+		return {aO: animation, aQ: elm$core$Maybe$Nothing, bs: duration, a$: elm$core$Maybe$Nothing};
 	});
 var rtfeldman$elm_css$Css$Transitions$backgroundColor = rtfeldman$elm_css$Css$Transitions$durationTransition(1);
 var rtfeldman$elm_css$Css$Transitions$BoxShadow = 25;
@@ -6501,7 +6501,7 @@ var rtfeldman$elm_css$Css$Transitions$transition = function (options) {
 			F2(
 				function (_n0, s) {
 					var animation = _n0.aO;
-					var duration = _n0.aR;
+					var duration = _n0.bs;
 					var delay = _n0.aQ;
 					var timing = _n0.a$;
 					return s + (A2(
@@ -6689,7 +6689,7 @@ var elm$core$List$singleton = function (value) {
 		[value]);
 };
 var rtfeldman$elm_css$Css$Preprocess$stylesheet = function (snippets) {
-	return {bq: elm$core$Maybe$Nothing, bx: _List_Nil, bC: _List_Nil, bP: snippets};
+	return {bq: elm$core$Maybe$Nothing, by: _List_Nil, bE: _List_Nil, bR: snippets};
 };
 var elm$core$List$append = F2(
 	function (xs, ys) {
@@ -7684,7 +7684,7 @@ var rtfeldman$elm_css$Css$Preprocess$Resolve$applyStyles = F2(
 						_List_fromArray(
 							[
 								rtfeldman$elm_css$Css$Structure$Keyframes(
-								{b1: str, cc: name})
+								{b3: str, ce: name})
 							]));
 				case 4:
 					var _n12 = styles.a;
@@ -7820,12 +7820,12 @@ var rtfeldman$elm_css$Css$Preprocess$Resolve$toDeclarations = function (snippetD
 };
 var rtfeldman$elm_css$Css$Preprocess$Resolve$toStructure = function (_n0) {
 	var charset = _n0.bq;
-	var imports = _n0.bx;
-	var namespaces = _n0.bC;
-	var snippets = _n0.bP;
+	var imports = _n0.by;
+	var namespaces = _n0.bE;
+	var snippets = _n0.bR;
 	var declarations = rtfeldman$elm_css$Css$Preprocess$Resolve$extract(
 		A2(elm$core$List$concatMap, rtfeldman$elm_css$Css$Preprocess$unwrapSnippet, snippets));
-	return {bq: charset, b2: declarations, bx: imports, bC: namespaces};
+	return {bq: charset, b4: declarations, by: imports, bE: namespaces};
 };
 var elm$core$List$any = F2(
 	function (isOkay, list) {
@@ -7898,8 +7898,8 @@ var rtfeldman$elm_css$Css$Structure$compactHelp = F2(
 					A2(elm$core$List$cons, declaration, declarations));
 			case 6:
 				var record = declaration.a;
-				return elm$core$String$isEmpty(record.b1) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
-					A3(elm$core$Dict$insert, record.cc, record.b1, keyframesByName),
+				return elm$core$String$isEmpty(record.b3) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
+					A3(elm$core$Dict$insert, record.ce, record.b3, keyframesByName),
 					declarations);
 			case 7:
 				var properties = declaration.a;
@@ -7934,16 +7934,16 @@ var rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations = F2(
 					var name = _n0.a;
 					var decl = _n0.b;
 					return rtfeldman$elm_css$Css$Structure$Keyframes(
-						{b1: decl, cc: name});
+						{b3: decl, ce: name});
 				},
 				elm$core$Dict$toList(keyframesByName)),
 			compactedDeclarations);
 	});
 var rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_n0) {
 	var charset = _n0.bq;
-	var imports = _n0.bx;
-	var namespaces = _n0.bC;
-	var declarations = _n0.b2;
+	var imports = _n0.by;
+	var namespaces = _n0.bE;
+	var declarations = _n0.b4;
 	var _n1 = A3(
 		elm$core$List$foldr,
 		rtfeldman$elm_css$Css$Structure$compactHelp,
@@ -7952,7 +7952,7 @@ var rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_n0) {
 	var keyframesByName = _n1.a;
 	var compactedDeclarations = _n1.b;
 	var finalDeclarations = A2(rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations, keyframesByName, compactedDeclarations);
-	return {bq: charset, b2: finalDeclarations, bx: imports, bC: namespaces};
+	return {bq: charset, b4: finalDeclarations, by: imports, bE: namespaces};
 };
 var elm$core$List$filter = F2(
 	function (isGood, list) {
@@ -7977,7 +7977,7 @@ var rtfeldman$elm_css$Css$Structure$Output$charsetToString = function (charset) 
 			charset));
 };
 var rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (expression) {
-	return '(' + (expression.bu + (A2(
+	return '(' + (expression.bv + (A2(
 		elm$core$Maybe$withDefault,
 		'',
 		A2(
@@ -8225,8 +8225,8 @@ var rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (de
 		case 5:
 			return 'TODO';
 		case 6:
-			var name = decl.a.cc;
-			var declaration = decl.a.b1;
+			var name = decl.a.ce;
+			var declaration = decl.a.b3;
 			return '@keyframes ' + (name + (' {\n' + (declaration + '\n}')));
 		case 7:
 			return 'TODO';
@@ -8238,9 +8238,9 @@ var rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (de
 };
 var rtfeldman$elm_css$Css$Structure$Output$prettyPrint = function (_n0) {
 	var charset = _n0.bq;
-	var imports = _n0.bx;
-	var namespaces = _n0.bC;
-	var declarations = _n0.b2;
+	var imports = _n0.by;
+	var namespaces = _n0.bE;
+	var declarations = _n0.b4;
 	return A2(
 		elm$core$String$join,
 		'\n\n',
@@ -8597,7 +8597,7 @@ var author$project$StyledComponents$white = rtfeldman$elm_css$Css$hex('fff');
 var author$project$StyledComponents$yellow = rtfeldman$elm_css$Css$hex('fad8a4');
 var rtfeldman$elm_css$Css$border = rtfeldman$elm_css$Css$prop1('border');
 var rtfeldman$elm_css$Css$marginTop = rtfeldman$elm_css$Css$prop1('margin-top');
-var rtfeldman$elm_css$Css$none = {V: 0, bm: 0, o: 0, a: 0, f: 0, b7: 0, by: 0, a5: 0, ah: 0, N: 0, w: 0, c: 0, b: 0, a7: 0, aW: 0, cg: 0, t: 0, aX: 0, ci: 0, ao: 0, T: 0, q: 0, e: 0, cn: 0, y: 'none'};
+var rtfeldman$elm_css$Css$none = {V: 0, bm: 0, o: 0, a: 0, f: 0, b9: 0, bA: 0, a5: 0, ah: 0, N: 0, w: 0, c: 0, b: 0, a7: 0, aW: 0, ci: 0, t: 0, aX: 0, ck: 0, ao: 0, T: 0, q: 0, e: 0, cp: 0, y: 'none'};
 var rtfeldman$elm_css$Css$outline = rtfeldman$elm_css$Css$prop1('outline');
 var rtfeldman$elm_css$Css$Preprocess$WithPseudoElement = F2(
 	function (a, b) {
@@ -8818,7 +8818,7 @@ var rtfeldman$elm_css$Css$Transitions$fullTransition = F4(
 		return {
 			aO: animation,
 			aQ: elm$core$Maybe$Just(delay),
-			aR: duration,
+			bs: duration,
 			a$: elm$core$Maybe$Just(timing)
 		};
 	});
@@ -8885,7 +8885,7 @@ var rtfeldman$elm_css$Css$block = {f: 0, y: 'block'};
 var rtfeldman$elm_css$Css$angleConverter = F2(
 	function (suffix, angleVal) {
 		return {
-			bY: 0,
+			b_: 0,
 			u: 0,
 			y: _Utils_ap(
 				elm$core$String$fromFloat(angleVal),
@@ -8912,7 +8912,7 @@ var author$project$StyledComponents$switch = A2(
 	rtfeldman$elm_css$Html$Styled$span,
 	_List_fromArray(
 		[
-			rtfeldman$elm_css$Css$backgroundColor(author$project$StyledComponents$greyLight),
+			rtfeldman$elm_css$Css$backgroundColor(author$project$StyledComponents$grey),
 			rtfeldman$elm_css$Css$borderRadius(
 			rtfeldman$elm_css$Css$px(20)),
 			rtfeldman$elm_css$Css$height(
@@ -8922,7 +8922,7 @@ var author$project$StyledComponents$switch = A2(
 			rtfeldman$elm_css$Css$after(
 			_List_fromArray(
 				[
-					rtfeldman$elm_css$Css$backgroundColor(author$project$StyledComponents$grey),
+					rtfeldman$elm_css$Css$backgroundColor(author$project$StyledComponents$greyLight),
 					rtfeldman$elm_css$Css$borderRadius(
 					rtfeldman$elm_css$Css$pct(50)),
 					rtfeldman$elm_css$Css$display(rtfeldman$elm_css$Css$block),
@@ -9945,7 +9945,7 @@ var elm$core$String$left = F2(
 var elm$core$String$contains = _String_contains;
 var elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {bv: fragment, bw: host, bE: path, bG: port_, bJ: protocol, bK: query};
+		return {bw: fragment, bx: host, bG: path, bI: port_, bL: protocol, bM: query};
 	});
 var elm$url$Url$chompBeforePath = F5(
 	function (protocol, path, params, frag, str) {
@@ -10530,10 +10530,10 @@ var rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 var rtfeldman$elm_css$Html$Styled$toUnstyled = rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
 var author$project$Main$main = elm$browser$Browser$element(
 	{
-		b9: author$project$Main$init,
-		ck: author$project$Main$subscriptions,
-		cm: author$project$Main$update,
-		cp: A2(elm$core$Basics$composeR, author$project$Main$view, rtfeldman$elm_css$Html$Styled$toUnstyled)
+		cb: author$project$Main$init,
+		cm: author$project$Main$subscriptions,
+		co: author$project$Main$update,
+		cr: A2(elm$core$Basics$composeR, author$project$Main$view, rtfeldman$elm_css$Html$Styled$toUnstyled)
 	});
 _Platform_export({'Main':{'init':author$project$Main$main(
 	elm$json$Json$Decode$succeed(

@@ -311,12 +311,12 @@ switch : List (Attribute msg) -> List (Html msg) -> Html msg
 switch =
     styled
         span
-        [ backgroundColor greyLight
+        [ backgroundColor grey
         , borderRadius (px 20)
         , height (px 20)
         , width (px 40)
         , after
-            [ backgroundColor grey
+            [ backgroundColor greyLight
             , borderRadius (pct 50)
             , display block
             , height (px 16)
