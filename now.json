@@ -1,6 +1,6 @@
 {
   "name": "tomatotimer",
-  "alias": [ "tomatotimer.com" ],
+  "alias": [ "tomatotmr.com" ],
   "type": "static",
   "files": [
     "dist"
