@@ -1,0 +1,12 @@
+{
+  "name": "tomatotmr.com",
+  "version": "1.0.0",
+  "description": "A pomodoro timer in elm-lang",
+  "scripts": {
+    "deploy": "now dist -A ../now.json && now alias"
+  },
+  "repository": "git@github.com:chrisbuttery/tomatotmr.com.git",
+  "author": "Chris Buttery <info@chrisbuttery.com>",
+  "license": "MIT",
+  "private": true
+}
