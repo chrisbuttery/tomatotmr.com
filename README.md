@@ -11,3 +11,5 @@ $ elm reactor
 $ elm make src/Main.elm --optimize --output=dist/main.js
 $ open dist/index.html
 ```
+
+All audio files sourced from [https://freesound.org](https://freesound.org.)

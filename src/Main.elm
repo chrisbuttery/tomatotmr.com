@@ -2,11 +2,10 @@ port module Main exposing (main)
 
 import Browser
 import Css exposing (..)
-import Debug
 import Html
 import Html.Attributes exposing (..)
 import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (class, classList, css, href, max, min, name, src, title, type_, value)
+import Html.Styled.Attributes exposing (class, classList, id, src, css, href, max, min, name, src, title, type_, value, selected)
 import Html.Styled.Events exposing (onClick, onInput)
 import Process
 import StyledComponents exposing (..)
@@ -19,9 +18,9 @@ import Vectors as Vector
 
 port emitComplete : () -> Cmd msg
 
-
 port emitPageTitle : String -> Cmd msg
 
+port emitAudioType : String -> Cmd msg
 
 type alias Model =
     { seconds : Int
@@ -33,6 +32,7 @@ type alias Model =
     , work : Int
     , autoPlay : Bool
     , showSettings : Bool
+    , selectedAudio : String
     }
 
 
@@ -82,6 +82,9 @@ defaultMinutes =
 
 defaultSeconds =
     0
+
+audioOptions : List String
+audioOptions = [ "buzzer", "ding", "explosion"]
 
 
 main : Program Flags Model Msg
@@ -167,12 +170,13 @@ initialModel =
     , work = pomodoro
     , autoPlay = False
     , showSettings = False
+    , selectedAudio = "ding"
     }
 
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( initialModel, Cmd.none )
+    ( initialModel, emitAudioType initialModel.selectedAudio )
 
 
 type Msg
@@ -187,6 +191,7 @@ type Msg
     | ToggleAutoPlay
     | ToggleSettings
     | BeforeStart
+    | UpdateSelectedAudio String
 
 
 getRangeValueFromString : String -> Int
@@ -323,6 +328,8 @@ update msg model =
         BeforeStart ->
             ( { model | state = PreStart }, Cmd.batch [ emitPageTitle <| formatPageTitle model, run DelayStart ] )
 
+        UpdateSelectedAudio audio ->
+            ( { model | selectedAudio = audio }, emitAudioType audio )
 
 zeroPadNumber : Int -> String
 zeroPadNumber n =
@@ -373,6 +380,15 @@ isBreakMode mode =
     classList [ ( "break", mode == Break ) ]
 
 
+createAudioOption : String -> String -> Html Msg 
+createAudioOption audio selectedAudio =
+  case audio == selectedAudio of
+    True ->
+      option [ value audio, selected True ] [ text audio ]
+    False ->
+      option [ value audio ] [ text audio ]
+
+
 drawerView : Model -> Html Msg
 drawerView model =
     drawer
@@ -400,6 +416,11 @@ drawerView model =
                     , onClick ToggleAutoPlay
                     ]
                     [ text "" ]
+                ]
+            , div
+                [ class T.white ]
+                [ styledLabel [ class T.lh_solid ] [ text "Audio" ]
+                , select [ onInput UpdateSelectedAudio ] (List.map (\o -> createAudioOption o model.selectedAudio) audioOptions)
                 ]
             ]
         ]
@@ -499,7 +520,6 @@ settingsView showSettings =
         , onClick ToggleSettings
         ]
         [ Vector.settings "16" "16" ]
-
 
 view : Model -> Html Msg
 view model =

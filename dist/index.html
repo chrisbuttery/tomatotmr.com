@@ -16,9 +16,35 @@
 <body>
   <div id="app"></div>
   <script>
+    function createAudioNode(data) {
+      if (!data) return;
+      const audio = document.createElement('audio');
+      audio.setAttribute("class", "dn");
+      audio.setAttribute("id", "audio");
+
+      const source = document.createElement('source');
+      source.setAttribute("src", "./audio/" + data + ".mp3");
+      source.setAttribute("type", "audio/mpeg");
+
+      audio.appendChild(source);
+
+      document.body.appendChild(audio);
+    }
+
+    function updateAudioFile(data) {
+      if (!data) return;
+      const audio = document.getElementById('audio');
+
+      if (audio) {
+        audio.parentNode.removeChild(audio);
+      }
+      
+      createAudioNode(data)
+    }
+
     const target = document.getElementById('app')
-    const app = Elm.Main.init({ node: target});
-    app.ports.emitComplete.subscribe(function(data) {
+    const app = Elm.Main.init({ node: target });
+      app.ports.emitComplete.subscribe(function(data) {
       audio.play();
     });
 
@@ -26,16 +52,11 @@
       document.title = data
     });
 
-    const audio = document.createElement('audio');
-    audio.setAttribute("class", "dn");
+    app.ports.emitAudioType.subscribe(function(data) {
+      console.log('test', data)
+      updateAudioFile(data)
+    });
 
-    const mp3 = document.createElement('source');
-    mp3.setAttribute("src", "./audio/explosion.mp3");
-    mp3.setAttribute("type", "audio/mpeg");
-
-    audio.appendChild(mp3);
-
-    document.body.appendChild(audio);
   </script>
   <script>
     !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";

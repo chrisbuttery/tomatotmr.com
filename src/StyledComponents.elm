@@ -337,6 +337,12 @@ switch =
         ]
 
 
+foo =
+  styled
+    div [
+      property "box-shadow" "inset 0 2px 0px #666, 0 2px 5px #000"
+    ]
+
 range : List (Attribute msg) -> List (Html msg) -> Html msg
 range =
     styled
