@@ -3,7 +3,6 @@ port module Main exposing (main)
 import Browser
 import Css exposing (..)
 import Html
-import Html.Attributes exposing (..)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (class, classList, id, src, css, href, max, min, name, src, title, type_, value, selected)
 import Html.Styled.Events exposing (onClick, onInput)
@@ -366,8 +365,8 @@ rangeInput msg lbl val nme maxRange =
             [ type_ "range"
             , classes [ T.w_100, T.bn, T.outline_0 ]
             , name nme
-            , min <| String.fromInt minRange
-            , max <| String.fromInt maxRange
+            , Html.Styled.Attributes.min <| String.fromInt minRange
+            , Html.Styled.Attributes.max <| String.fromInt maxRange
             , value <| String.fromInt val
             , onInput msg
             ]
@@ -380,7 +379,7 @@ isBreakMode mode =
     classList [ ( "break", mode == Break ) ]
 
 
-createAudioOption : String -> String -> Html Msg 
+createAudioOption : String -> String -> Html Msg
 createAudioOption audio selectedAudio =
   case audio == selectedAudio of
     True ->
@@ -467,7 +466,7 @@ modeButtonsView mode =
       tachyons =
           [ T.w_40, T.w_30_ns, T.tc, T.ph0, T.pt2, T.fw3, T.relative, T.z_1, T.mr2, T.bn, T.br2, T.outline_0, T.pointer, T.relative ]
   in
-  
+
     div [ classes [ T.w_100, T.mt4, T.mt5_ns ] ]
         [ blockButton
             [ classes tachyons
@@ -537,8 +536,8 @@ view model =
             , heading1 [ classes [ T.absolute, T.bottom_0, T.ma0, T.fw1, T.lh_title ] ]
                 [ heading1Anchor
                     [ classes [ T.pa2, T.db, T.link, T.underline_hover ]
-                    , href "http://www.chrisbuttery.com"
-                    , title desc
+                    , href "http://chrisbuttery.com"
+                    , title (desc ++ "test")
                     ]
                     [ text desc ]
                 ]
