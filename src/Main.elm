@@ -537,7 +537,7 @@ view model =
                 [ heading1Anchor
                     [ classes [ T.pa2, T.db, T.link, T.underline_hover ]
                     , href "http://chrisbuttery.com"
-                    , title (desc ++ "test")
+                    , title desc
                     ]
                     [ text desc ]
                 ]
